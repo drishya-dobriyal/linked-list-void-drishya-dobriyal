@@ -64,4 +64,6 @@ Status add_unique(List_ptr list, Element element, Matcher matcher);
 Status clear_list(List_ptr);
 
 void display_list(List_ptr);
+Status is_equal( Element value1, Element value2);
+Status is_value_present( List_ptr list, Element value, Matcher matcher);
 #endif

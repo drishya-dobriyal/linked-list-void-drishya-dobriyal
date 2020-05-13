@@ -73,3 +73,22 @@ Status insert_at(List_ptr list, Element element, int position){
   list->length++;
   return Success;
 }
+
+Status is_equal( Element value1, Element value2){
+  return *( int *)value1 == *(int *)value2;
+}
+
+Status is_value_present( List_ptr list, Element value, Matcher matcher){
+   Node_ptr p_walk = list->first;
+  while (p_walk != NULL)
+  {
+    if((*is_equal)( p_walk->element, value)) return Success;
+    p_walk = p_walk->next;
+  }
+  return Failure;
+}
+
+Status add_unique(List_ptr list, Element value, Matcher matcher){
+  if(is_value_present(list, value, matcher)) return Failure;
+  return insert_at(list,value,list->length);
+}

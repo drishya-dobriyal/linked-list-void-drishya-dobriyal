@@ -85,9 +85,36 @@ void test_insert_at( void ){
   printf("Test for insert_at completed\n\n");
 }
 
+void test_add_unique( void ){
+  printf("Testing add_unique \n");
+  List_ptr list = create_list();
+  Matcher matcher = &is_equal;
+  int *number = malloc(sizeof(Element));
+  *number = 1;
+  add_unique(list, number, matcher);
+  *number = 2;
+  add_unique(list, number, matcher);
+  *number = 3;
+  add_unique(list, number, matcher);
+
+  printf("Should add num at last if num is not present\n");
+  *number = 4;
+  assert(add_unique(list, number , matcher));
+  assert(list->length == 4);
+  assert(*(int *)list->last->element == 4);
+
+  printf("Should not add num at last if num is not present\n");
+  *number = 1;
+  assert(!add_unique(list, number, matcher));
+  assert(list->length == 4);
+  assert(*(int *)list->last->element == 4);
+  printf("Test for add_unique completed\n\n");
+}
+
 int main(void){
   test_add_to_list();
   test_add_to_start();
   test_insert_at();
+  test_add_unique();
   return  0;
 }
