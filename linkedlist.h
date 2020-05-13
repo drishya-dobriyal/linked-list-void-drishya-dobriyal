@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-
 /*
 The consumer of this Linked List library is expected to take care of allocating & freeing elements.
 The Linked List maintains the element references in a sequence and provides convenient operations on them.
@@ -8,8 +5,9 @@ The Linked List maintains the element references in a sequence and provides conv
 
 #ifndef __LINKEDLIST_H_
 #define __LINKEDLIST_H_
-
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 typedef enum
 {
   Failure,
@@ -64,4 +62,6 @@ List_ptr remove_all_occurrences(List_ptr, Element element, Matcher matcher); // 
 Status add_unique(List_ptr list, Element element, Matcher matcher);
 
 Status clear_list(List_ptr);
+
+void display_list(List_ptr);
 #endif
