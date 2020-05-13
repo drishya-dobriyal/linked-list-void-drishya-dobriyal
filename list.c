@@ -25,8 +25,12 @@ List_ptr create_list(void){
   return list;
 }
 
-Status add_to_start( List_ptr list, int value) {
+Status add_to_start( List_ptr list, Element value) {
   return insert_at(list, value, 0);
+}
+
+Status add_to_list( List_ptr list, Element value) {
+  return insert_at(list, value, list->length);
 }
 
 Status insert_initial_node(List_ptr list, Node_ptr node){
