@@ -14,6 +14,8 @@ int main()
   insert_at( list, number, 3);
   *number = 5.33;
   insert_at( list, number, 1);
+  *number = 50.33;
+  add_to_start(list, number);
   display_list(list);
   return 0;
 }
