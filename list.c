@@ -4,7 +4,7 @@ void display_list(List_ptr list){
   Node_ptr p_walk = list->first;
   while (p_walk != NULL)
   {
-    printf("%f\n",*(double *)p_walk->element);
+    printf("%d\n",*(int *)p_walk->element);
     p_walk = p_walk->next;
   }
 }
@@ -91,4 +91,34 @@ Status is_value_present( List_ptr list, Element value, Matcher matcher){
 Status add_unique(List_ptr list, Element value, Matcher matcher){
   if(is_value_present(list, value, matcher)) return Failure;
   return insert_at(list,value,list->length);
+}
+
+Element remove_from_start(List_ptr list) {
+  if(list->first == NULL) return NULL;
+  Node_ptr new_node = list->first->next;
+  Element pre_element = list->first->element;
+  list->first = new_node;
+  list->length--;
+  return pre_element;
+}
+
+Element remove_from_end(List_ptr list){
+  return remove_at(list, list->length - 1);
+};
+ 
+Element remove_at(List_ptr list, int position){
+  if(list->first == NULL|| position > list->length || position < 0 ) return NULL;
+  if( position == 0) return remove_from_start( list );
+   
+  Node_ptr pre_node = get_node(list, position);
+  Node_ptr elimate_node = pre_node->next;
+  if( position == list->length - 1) {
+    list->last = pre_node;
+    list->last->next = NULL;
+  }
+  else {
+    pre_node->next = elimate_node->next;
+  };   
+  list->length--;
+  return elimate_node->element;
 }
