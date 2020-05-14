@@ -152,11 +152,41 @@ void test_remove_at(void) {
   printf("Test for remove_at completed\n\n");
 };
 
+void test_remove_from_start(void) {
+  printf("Testing remove_from_start\n");
+  List_ptr list = create_list();
+  
+  printf("should fail if the list is empty\n");
+  assert(!remove_from_start(list));
+  assert(list->length == 0);
+
+  printf("should remove first num from the list\n");
+  int *number = malloc(sizeof(Element));
+  *number = 5;
+  add_to_list(list, number);
+  assert(*(int *)remove_from_start(list) == 5);
+  assert(list->length == 0);
+  assert(list->first == NULL);
+
+  printf("should remove first num from the list when more than one is present\n");
+  *number = 1;
+  add_to_list(list, number);
+  *number = 2;
+  add_to_list(list, number);
+  assert(remove_from_start(list));
+  assert(list->length == 1);
+  assert(*(int *)list->last->element== 2);
+  assert(*(int *)list->first->element == 2);
+
+  printf("Test for remove_from_start completed\n\n");
+};
+
 int main(void){
   test_add_to_list();
   test_add_to_start();
   test_insert_at();
   test_add_unique();
   test_remove_at();
+  test_remove_from_start();
   return  0;
 }
