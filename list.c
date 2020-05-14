@@ -1,5 +1,20 @@
 #include "linkedlist.h"
 
+Status clear_list( List_ptr list){
+  Node_ptr p_walk = list->first;
+  Node_ptr element_ptr = NULL;
+  while (p_walk != NULL)
+  {
+    element_ptr = p_walk;
+    p_walk = p_walk->next;
+    free(element_ptr);
+  }
+  list->first = NULL;
+  list->last = NULL;
+  list->length = 0;
+  return Success;
+}
+
 void display_list(List_ptr list){
   Node_ptr p_walk = list->first;
   while (p_walk != NULL)
