@@ -333,7 +333,7 @@ void test_reduce( void ){
 void test_for_each(void){
   printf("Testing forEach\n");
   List_ptr list = create_list();
-   ElementProcessor processor = &increment_by_one;
+  ElementProcessor processor = &increment_by_one;
   printf("should increment given list\n");
   int *number = malloc(sizeof(Element));
   *number = 1;
@@ -351,6 +351,23 @@ void test_for_each(void){
   printf("Test passed\n\n");
 }
 
+void test_reverse( void ){
+  printf("Test reverse\n");
+  List_ptr list = create_list();
+  int *number = malloc(sizeof(Element));
+  *number = 1;
+  add_to_list(list,number);
+  *number = 2;
+  add_to_list(list,number);
+  *number = 3;
+  add_to_list(list,number);
+  List_ptr new_list = reverse(list);
+  assert(*( int *)new_list->first->element == 3);
+  assert(*( int *)new_list->first->next->element == 2);
+  assert(*( int *)new_list->last->element == 1);
+  printf("Test completed\n\n");
+}
+
 int main(void){
   test_add_to_list();
   test_add_to_start();
@@ -365,5 +382,6 @@ int main(void){
   test_filter();
   test_reduce();
   test_for_each();
+  test_reverse();
   return  0;
 }

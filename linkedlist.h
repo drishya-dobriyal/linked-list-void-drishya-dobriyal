@@ -40,6 +40,7 @@ typedef void (*ElementProcessor)(Element);
 typedef Status (*Matcher)(Element, Element);
 
 List_ptr create_list(void);
+void destroy_list(List_ptr);
 
 Status add_to_list(List_ptr, Element);
 Status add_to_start(List_ptr, Element);

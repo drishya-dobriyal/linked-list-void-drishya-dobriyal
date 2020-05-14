@@ -15,6 +15,18 @@ Status clear_list( List_ptr list){
   return Success;
 }
 
+void destroy_list(List_ptr list){
+  Node_ptr p_walk = list->first;
+  Node_ptr eliminate_ptr = NULL;
+  while (p_walk != NULL)
+  {
+    eliminate_ptr = p_walk;
+    p_walk = p_walk->next;
+    free(eliminate_ptr);
+  }
+  free(list);
+}
+
 void display_list(List_ptr list){
   Node_ptr p_walk = list->first;
   while (p_walk != NULL)
@@ -230,4 +242,15 @@ void forEach(List_ptr list, ElementProcessor processor) {
     (*processor)( p_walk->element);
     p_walk = p_walk->next;
   }
+}
+
+List_ptr reverse( List_ptr list){
+  List_ptr new_list = create_list();
+  Node_ptr p_walk = list->first;
+  while (p_walk != NULL)
+  {
+    add_to_start(new_list, p_walk->element);
+    p_walk = p_walk->next;
+  }
+  return new_list;
 }
