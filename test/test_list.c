@@ -230,6 +230,42 @@ void test_remove_first_occurrence(void) {
   printf("Test for remove_first_occurrences completed\n\n");
 };
 
+void test_remove_all_occurrence(void){
+   printf("Testing remove_all_occurrence\n");
+  List_ptr list = create_list();
+  Matcher matcher = &is_equal;
+  int *number = malloc(sizeof(int));
+  printf("should give empty list if the list is empty\n");
+  *number = 1;
+  List_ptr new_list = remove_all_occurrences(list,number, matcher);
+  assert(new_list->first == NULL);
+  assert(new_list->last == NULL);
+
+  printf("should give empty list if the number  is not present\n");
+  *number = 1;
+  add_to_list(list, number);
+  *number = 2;
+  add_to_list(list, number);
+  *number = 4;
+  new_list = remove_all_occurrences(list,number, matcher);
+  assert(new_list->length == 0);
+
+  printf("should give list of the number if number is present\n");
+  *number = 1;
+  add_to_list(list, number);
+  *number = 2;
+  add_to_list(list, number);
+  *number = 3;
+  add_to_list(list, number);
+  *number = 1;
+  new_list = remove_all_occurrences(list, number, matcher);
+  assert(new_list->length == 2);
+  assert(*(int *)new_list->first->element == 1);
+  assert(*(int *)new_list->first->next->element == 1);
+  assert(*(int *)new_list->last->element == 1);
+  printf("Test for remove_all_occurrence done \n");
+}
+
 int main(void){
   test_add_to_list();
   test_add_to_start();
@@ -239,5 +275,6 @@ int main(void){
   test_remove_from_start();
   test_remove_from_end();
   test_remove_first_occurrence();
+  test_remove_all_occurrence();
   return  0;
 }

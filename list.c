@@ -134,3 +134,18 @@ Element remove_first_occurrence(List_ptr list, Element value, Matcher  matcher){
   }
   return NULL;
 }
+
+List_ptr remove_all_occurrences(List_ptr list, Element value, Matcher matcher) {
+  List_ptr new_list = create_list();
+  Node_ptr p_walk = list->first;
+  int pos = 0;
+  while ( p_walk != NULL )
+  {
+    Element new_element= remove_first_occurrence(list, value, matcher);
+    if(new_element == NULL) break;
+    insert_at(new_list, new_element, pos);
+    p_walk = p_walk->next;
+    pos += 1;
+  }
+  return new_list;
+}
