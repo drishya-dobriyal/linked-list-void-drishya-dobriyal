@@ -66,4 +66,8 @@ Status clear_list(List_ptr);
 void display_list(List_ptr);
 Status is_equal( Element value1, Element value2);
 Status is_value_present( List_ptr list, Element value, Matcher matcher);
+Element increment( Element value );
+Status is_even( Element value);
+Element sum( Element value1, Element value2);
+void increment_by_one( Element value);
 #endif

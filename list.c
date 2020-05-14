@@ -149,3 +149,70 @@ List_ptr remove_all_occurrences(List_ptr list, Element value, Matcher matcher) {
   }
   return new_list;
 }
+
+Element increment( Element value ){
+  int *number = malloc(sizeof(Element));
+  *number = *(int *)value + 1;
+  return number;
+}
+
+List_ptr map( List_ptr list, Mapper mapper){
+  Node_ptr p_walk = list->first;
+  List_ptr new_list = create_list();
+  int pos = 0;
+  while ( p_walk != NULL)
+  {
+    Element value = (*mapper)(p_walk->element);
+    insert_at( new_list, value, pos);
+    p_walk = p_walk->next;
+    pos++;
+  }
+  return new_list;
+}
+
+Status is_even( void *value) {
+  return *(int *)value % 2 == 0;
+}
+
+List_ptr filter( List_ptr list, Predicate predicate){
+  Node_ptr p_walk = list->first;
+  List_ptr  new_list = create_list();
+  while ( p_walk != NULL)
+  {
+    if((*predicate)(p_walk->element)) add_to_list( new_list, p_walk->element);
+    p_walk = p_walk->next;
+  }
+  return new_list;
+}
+
+Element sum( Element num1, Element num2){
+  int *sum = malloc(sizeof(int));
+  *sum = *(int *)num1 + *(int *)num2;
+  return sum;
+}
+
+Element reduce( List_ptr list,Element context, Reducer reducer ){
+  Node_ptr p_walk = list->first;
+  while ( p_walk != NULL)
+  {
+    context = (*reducer)( context, p_walk->element);
+    p_walk = p_walk->next;
+  }
+  return context;
+}
+
+void increment_by_one( Element value){
+  int *num = malloc(sizeof(Element));
+  *num = *(int *)value + 1;
+  memcpy(value, num, sizeof(Element));
+  free(num);
+}
+
+void forEach(List_ptr list, ElementProcessor processor) {
+ Node_ptr p_walk = list->first;
+  while ( p_walk != NULL)
+  {
+    (*processor)( p_walk->element);
+    p_walk = p_walk->next;
+  }
+}

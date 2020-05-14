@@ -263,7 +263,92 @@ void test_remove_all_occurrence(void){
   assert(*(int *)new_list->first->element == 1);
   assert(*(int *)new_list->first->next->element == 1);
   assert(*(int *)new_list->last->element == 1);
-  printf("Test for remove_all_occurrence done \n");
+  printf("Test for remove_all_occurrence done \n\n");
+}
+
+void test_map() {
+  printf("Testing map\n");
+  List_ptr list = create_list();
+  Mapper mapper = &increment;
+  printf("should increment the value\n");
+  int *number = malloc(sizeof(Element));
+  *number = 1;
+  add_to_list(list,number);
+  *number = 2;
+  add_to_list(list,number);
+  *number = 3;
+  add_to_list(list,number);
+  *number = 4;
+  add_to_list(list,number);
+  List_ptr new_list = map(list, mapper);
+  assert(new_list->length == 4);
+  assert(*(int *)new_list->first->element == 2);
+  assert(*(int *)new_list->first->next->element == 3);
+  assert(*(int *)new_list->last->element == 5);
+  printf("Test passed\n\n");
+}
+
+void test_filter( void ){
+  printf("Testing filter\n");
+  List_ptr list = create_list();
+  Predicate predicate = &is_even;
+  printf("should give even number list\n");
+  int *number = malloc(sizeof(Element));
+  *number = 1;
+  add_to_list(list,number);
+  *number = 2;
+  add_to_list(list,number);
+  *number = 3;
+  add_to_list(list,number);
+  *number = 4;
+  add_to_list(list,number);
+  List_ptr new_list = filter(list, predicate);
+  assert(new_list->length == 2);
+  assert(*(int *)new_list->first->element == 2);
+  assert(*(int *)new_list->last->element == 4);
+  printf("Test passed\n\n");
+}
+
+
+void test_reduce( void ){
+  printf("Testing reduce\n");
+  List_ptr list = create_list();
+  Reducer reducer = &sum;
+  printf("should give sum of number\n");
+  int *number = malloc(sizeof(Element));
+  *number = 1;
+  add_to_list(list,number);
+  *number = 2;
+  add_to_list(list,number);
+  *number = 3;
+  add_to_list(list,number);
+  *number = 4;
+  add_to_list(list,number);
+  *number = 0;
+  Element total = reduce(list,number, reducer);
+  assert(*(int *)total == 10);
+  printf("Test passed\n\n");
+}
+
+void test_for_each(void){
+  printf("Testing forEach\n");
+  List_ptr list = create_list();
+   ElementProcessor processor = &increment_by_one;
+  printf("should increment given list\n");
+  int *number = malloc(sizeof(Element));
+  *number = 1;
+  add_to_list(list,number);
+  *number = 2;
+  add_to_list(list,number);
+  *number = 3;
+  add_to_list(list,number);
+  *number = 4;
+  add_to_list(list,number);
+  forEach( list ,processor);
+  assert(*(int *)list->first->element == 2);
+  assert(*(int *)list->first->next->element == 3);
+  assert(*(int *)list->last->element == 5);
+  printf("Test passed\n\n");
 }
 
 int main(void){
@@ -276,5 +361,9 @@ int main(void){
   test_remove_from_end();
   test_remove_first_occurrence();
   test_remove_all_occurrence();
+  test_map();
+  test_filter();
+  test_reduce();
+  test_for_each();
   return  0;
 }
