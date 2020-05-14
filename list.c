@@ -123,13 +123,7 @@ Status add_unique(List_ptr list, Element value, Matcher matcher){
 Element remove_from_start(List_ptr list) {
   if(list->first == NULL) return NULL;
   Element pre_element = list->first->element;
-  if(list->length == 1)
-  {
-    list->last = NULL;
-    list->first = NULL;
-    list->length--;
-    return pre_element;
-  }
+  if(list->length == 1) list->last = NULL;
   Node_ptr new_node = list->first->next;
   list->first = new_node;
   list->length--;
@@ -149,7 +143,7 @@ Element remove_at(List_ptr list, int position){
   if( position == list->length - 1) {
     list->last = pre_node;
     list->last->next = NULL;
-  }
+  } 
   else {
     pre_node->next = elimate_node->next;
   };   

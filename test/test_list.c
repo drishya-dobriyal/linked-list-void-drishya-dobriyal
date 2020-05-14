@@ -22,7 +22,7 @@ void test_add_to_list( void ){
   assert(add_to_list(list, number));
   assert(list->length == 4);
   assert(*(int *)list->last->element == 4);
-
+  destroy_list(list);
   printf("Test for add_to_list completed\n\n");
 }
 
@@ -46,7 +46,7 @@ void test_add_to_start( void ){
   assert(add_to_start(list, number));
   assert(*(int *)list->first->element == 4);
   assert(list->length == 4);
-
+  destroy_list(list);
   printf("Test for add_to_list completed\n\n");
 }
 
@@ -80,7 +80,7 @@ void test_insert_at( void ){
   *number = 5;
   assert(!insert_at(list, number , 10));
   assert(list->length == 5);
-
+  destroy_list(list);
   printf("Test for insert_at completed\n\n");
 }
 
@@ -107,6 +107,7 @@ void test_add_unique( void ){
   assert(!add_unique(list, number, matcher));
   assert(list->length == 4);
   assert(*(int *)list->last->element == 4);
+  destroy_list(list);
   printf("Test for add_unique completed\n\n");
 }
 
@@ -148,7 +149,7 @@ void test_remove_at(void) {
   printf("should fail if invalid position is given\n");
   assert(!remove_at(list,5));
   assert(list->length == 2);
-
+  destroy_list(list);
   printf("Test for remove_at completed\n\n");
 };
 
@@ -178,7 +179,7 @@ void test_remove_from_start(void) {
   assert(list->length == 1);
   assert(*(int *)list->last->element== 2);
   assert(*(int *)list->first->element == 2);
-
+  destroy_list(list);
   printf("Test for remove_from_start completed\n\n");
 };
 
@@ -190,17 +191,30 @@ void test_remove_from_end(void) {
   assert(!remove_from_end(list));
   assert(list->length == 0);
 
-  printf("should remove num from last in the list\n");
+  printf("should remove num from last in the single list\n");
   int *number = malloc(sizeof(Element));
+  *number = 1;
+  add_to_list(list, number);
+  Element result = remove_from_end(list);
+  assert(*(int *)result == 1);
+  assert(list->length == 0);
+  assert(list->first == NULL);
+  assert(list->last == NULL);
+
+  printf("should remove num from last in the list\n");
   *number = 1;
   add_to_list(list, number);
   *number = 2;
   add_to_list(list,number);
-  Element result = remove_from_end(list);
-  assert(*(int *)result == 2);
-  assert(list->length == 1);
+  *number = 3;
+  add_to_list(list,number);
+  display_list(list);
+  result = remove_from_end(list);
+  assert(*(int *)result == 3);
+  assert(list->length == 2);
   assert(*(int *)list->first->element == 1);
-  assert(*(int *)list->last->element == 1);
+  assert(*(int *)list->last->element == 2);
+  destroy_list(list);
   printf("Test for remove_from_end completed\n\n");
 };
 
@@ -236,6 +250,7 @@ void test_remove_first_occurrence(void) {
   assert(list->length == 1);
   assert(*(int *)list->first->element == 1);
   assert(*(int *)list->last->element == 1);
+  destroy_list(list);
   printf("Test for remove_first_occurrences completed\n\n");
 };
 
@@ -271,6 +286,7 @@ void test_remove_all_occurrence(void){
   assert(*(int *)new_list->first->element == 1);
   assert(*(int *)new_list->first->next->element == 1);
   assert(*(int *)new_list->last->element == 1);
+  destroy_list(list);
   printf("Test for remove_all_occurrence done \n\n");
 }
 
@@ -293,6 +309,8 @@ void test_map() {
   assert(*(int *)new_list->first->element == 2);
   assert(*(int *)new_list->first->next->element == 3);
   assert(*(int *)new_list->last->element == 5);
+  destroy_list(list);
+  destroy_list(new_list);
   printf("Test passed\n\n");
 }
 
@@ -314,6 +332,8 @@ void test_filter( void ){
   assert(new_list->length == 2);
   assert(*(int *)new_list->first->element == 2);
   assert(*(int *)new_list->last->element == 4);
+  destroy_list(list);
+  destroy_list(new_list);
   printf("Test passed\n\n");
 }
 
@@ -334,6 +354,7 @@ void test_reduce( void ){
   *number = 0;
   Element total = reduce(list,number, reducer);
   assert(*(int *)total == 10);
+  destroy_list(list);
   printf("Test passed\n\n");
 }
 
@@ -355,6 +376,7 @@ void test_for_each(void){
   assert(*(int *)list->first->element == 2);
   assert(*(int *)list->first->next->element == 3);
   assert(*(int *)list->last->element == 5);
+  destroy_list(list);
   printf("Test passed\n\n");
 }
 
@@ -372,6 +394,8 @@ void test_reverse( void ){
   assert(*( int *)new_list->first->element == 3);
   assert(*( int *)new_list->first->next->element == 2);
   assert(*( int *)new_list->last->element == 1);
+  destroy_list(list);
+  destroy_list(new_list);
   printf("Test completed\n\n");
 }
 
