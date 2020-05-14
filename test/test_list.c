@@ -167,6 +167,7 @@ void test_remove_from_start(void) {
   assert(*(int *)remove_from_start(list) == 5);
   assert(list->length == 0);
   assert(list->first == NULL);
+  assert(list->last == NULL);
 
   printf("should remove first num from the list when more than one is present\n");
   *number = 1;
@@ -309,7 +310,6 @@ void test_filter( void ){
   printf("Test passed\n\n");
 }
 
-
 void test_reduce( void ){
   printf("Testing reduce\n");
   List_ptr list = create_list();
@@ -369,19 +369,19 @@ void test_reverse( void ){
 }
 
 int main(void){
-  test_add_to_list();
-  test_add_to_start();
-  test_insert_at();
-  test_add_unique();
-  test_remove_at();
+//   test_add_to_list();
+//   test_add_to_start();
+//   test_insert_at();
+//   test_add_unique();
+  // test_remove_at();
   test_remove_from_start();
   test_remove_from_end();
-  test_remove_first_occurrence();
-  test_remove_all_occurrence();
-  test_map();
-  test_filter();
-  test_reduce();
-  test_for_each();
-  test_reverse();
+  // test_remove_first_occurrence();
+  // test_remove_all_occurrence();
+  // test_map();
+  // test_filter();
+  // test_reduce();
+  // test_for_each();
+  // test_reverse();
   return  0;
 }

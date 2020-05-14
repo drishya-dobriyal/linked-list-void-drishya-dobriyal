@@ -126,6 +126,7 @@ Element remove_from_start(List_ptr list) {
   Element pre_element = list->first->element;
   list->first = new_node;
   list->length--;
+  if(!list->length) list->last = NULL;
   return pre_element;
 }
 
