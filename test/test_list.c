@@ -120,7 +120,6 @@ void test_remove_at(void) {
   assert(list->last == NULL);
   assert(list->length == 0);
 
-  printf("should remove the num in middle of list\n");
   int *number = malloc(sizeof(Element));
   *number = 1;
   add_to_list(list, number);
@@ -131,13 +130,14 @@ void test_remove_at(void) {
   *number = 4;
   add_to_list(list, number);
   *number = 5;
+  printf("should remove the num in middle of list\n");
   add_to_list(list, number);
   assert(*(int *)remove_at(list,1) == 2);
   assert(list->length == 4);
   assert(*(int *)list->first->next->element == 3);
 
   printf("should remove the num in starting of list of list\n");
-  assert(*( int *)remove_at(list,0) == 1);
+  assert(*( int *)remove_at(list, 0) == 1);
   assert(list->length == 3);
   assert(*(int *)list->first->element == 3);
  
@@ -157,7 +157,7 @@ void test_remove_from_start(void) {
   printf("Testing remove_from_start\n");
   List_ptr list = create_list();
   
-  printf("should fail if the list is empty\n");
+  printf("should return if the list is empty\n");
   assert(!remove_from_start(list));
   assert(list->length == 0);
 
@@ -179,7 +179,7 @@ void test_remove_from_start(void) {
   assert(list->length == 1);
   assert(*(int *)list->last->element== 2);
   assert(*(int *)list->first->element == 2);
-  destroy_list(list);
+  
   printf("Test for remove_from_start completed\n\n");
 };
 
@@ -208,13 +208,11 @@ void test_remove_from_end(void) {
   add_to_list(list,number);
   *number = 3;
   add_to_list(list,number);
-  display_list(list);
   result = remove_from_end(list);
   assert(*(int *)result == 3);
   assert(list->length == 2);
   assert(*(int *)list->first->element == 1);
   assert(*(int *)list->last->element == 2);
-  destroy_list(list);
   printf("Test for remove_from_end completed\n\n");
 };
 
@@ -227,7 +225,6 @@ void test_remove_first_occurrence(void) {
   printf("should fail if the list is empty\n");
   assert(!remove_first_occurrence(list, number, matcher));
   assert(list->length== 0);
-  display_list(list);
 
   printf("should remove first occurrence in single list\n");
   add_to_list(list, number);
@@ -250,12 +247,11 @@ void test_remove_first_occurrence(void) {
   assert(list->length == 1);
   assert(*(int *)list->first->element == 1);
   assert(*(int *)list->last->element == 1);
-  destroy_list(list);
   printf("Test for remove_first_occurrences completed\n\n");
 };
 
 void test_remove_all_occurrence(void){
-   printf("Testing remove_all_occurrence\n");
+  printf("Testing remove_all_occurrence\n");
   List_ptr list = create_list();
   Matcher matcher = &is_equal;
   int *number = malloc(sizeof(int));
@@ -272,13 +268,11 @@ void test_remove_all_occurrence(void){
   *number = 4;
   new_list = remove_all_occurrences(list,number, matcher);
   assert(new_list->length == 0);
+  assert(new_list->first == NULL);
+  assert(new_list->last == NULL);
 
   printf("should give list of the number if number is present\n");
   *number = 1;
-  add_to_list(list, number);
-  *number = 2;
-  add_to_list(list, number);
-  *number = 3;
   add_to_list(list, number);
   *number = 1;
   new_list = remove_all_occurrences(list, number, matcher);
@@ -286,7 +280,15 @@ void test_remove_all_occurrence(void){
   assert(*(int *)new_list->first->element == 1);
   assert(*(int *)new_list->first->next->element == 1);
   assert(*(int *)new_list->last->element == 1);
-  destroy_list(list);
+  *number = 2;
+  add_to_list(list, number);
+  *number = 2;
+  new_list = remove_all_occurrences(list, number, matcher);
+  assert(list->length == 0);
+  assert(list->first == NULL);
+  assert(list->last == NULL);
+  assert(new_list->length == 2);
+  assert(*(int *)new_list->first->element == 2);
   printf("Test for remove_all_occurrence done \n\n");
 }
 
@@ -309,8 +311,6 @@ void test_map() {
   assert(*(int *)new_list->first->element == 2);
   assert(*(int *)new_list->first->next->element == 3);
   assert(*(int *)new_list->last->element == 5);
-  destroy_list(list);
-  destroy_list(new_list);
   printf("Test passed\n\n");
 }
 
@@ -332,8 +332,6 @@ void test_filter( void ){
   assert(new_list->length == 2);
   assert(*(int *)new_list->first->element == 2);
   assert(*(int *)new_list->last->element == 4);
-  destroy_list(list);
-  destroy_list(new_list);
   printf("Test passed\n\n");
 }
 
@@ -354,7 +352,6 @@ void test_reduce( void ){
   *number = 0;
   Element total = reduce(list,number, reducer);
   assert(*(int *)total == 10);
-  destroy_list(list);
   printf("Test passed\n\n");
 }
 
@@ -376,7 +373,6 @@ void test_for_each(void){
   assert(*(int *)list->first->element == 2);
   assert(*(int *)list->first->next->element == 3);
   assert(*(int *)list->last->element == 5);
-  destroy_list(list);
   printf("Test passed\n\n");
 }
 
@@ -394,8 +390,6 @@ void test_reverse( void ){
   assert(*( int *)new_list->first->element == 3);
   assert(*( int *)new_list->first->next->element == 2);
   assert(*( int *)new_list->last->element == 1);
-  destroy_list(list);
-  destroy_list(new_list);
   printf("Test completed\n\n");
 }
 

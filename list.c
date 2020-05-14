@@ -122,12 +122,12 @@ Status add_unique(List_ptr list, Element value, Matcher matcher){
 
 Element remove_from_start(List_ptr list) {
   if(list->first == NULL) return NULL;
-  Element pre_element = list->first->element;
+  Element element_to_remove = list->first->element;
+  Node_ptr new_first = list->first->next;
+  list->first = new_first;
   if(list->length == 1) list->last = NULL;
-  Node_ptr new_node = list->first->next;
-  list->first = new_node;
   list->length--;
-  return pre_element;
+  return element_to_remove;
 }
 
 Element remove_from_end(List_ptr list){
@@ -136,19 +136,20 @@ Element remove_from_end(List_ptr list){
  
 Element remove_at(List_ptr list, int position){
   if(list->first == NULL|| position > list->length || position < 0 ) return NULL;
-  if( position == 0) return remove_from_start( list );
-   
-  Node_ptr pre_node = get_node(list, position);
-  Node_ptr elimate_node = pre_node->next;
+  if(position == 0) return remove_from_start(list);
+  Node_ptr p_walk = get_node(list, position);
+  Element element_to_remove = p_walk->next->element;
   if( position == list->length - 1) {
-    list->last = pre_node;
+    list->last = p_walk;
     list->last->next = NULL;
   } 
   else {
-    pre_node->next = elimate_node->next;
+    Node_ptr next_pos = p_walk->next->next;
+    free(p_walk->next);
+    p_walk->next = next_pos;
   };   
   list->length--;
-  return elimate_node->element;
+  return element_to_remove;
 }
 
 Element remove_first_occurrence(List_ptr list, Element value, Matcher  matcher){
