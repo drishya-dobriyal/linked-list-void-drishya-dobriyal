@@ -122,3 +122,15 @@ Element remove_at(List_ptr list, int position){
   list->length--;
   return elimate_node->element;
 }
+
+Element remove_first_occurrence(List_ptr list, Element value, Matcher  matcher){
+  Node_ptr p_walk = list->first;
+  int pos = 0;
+  while (p_walk != NULL)
+  {
+    if((*matcher)(p_walk->element, value)) return remove_at(list, pos);
+    p_walk = p_walk->next;
+    pos++;
+  }
+  return NULL;
+}

@@ -181,7 +181,6 @@ void test_remove_from_start(void) {
   printf("Test for remove_from_start completed\n\n");
 };
 
-
 void test_remove_from_end(void) {
   printf("Testing remove_from_end\n");
   List_ptr list = create_list();
@@ -204,6 +203,33 @@ void test_remove_from_end(void) {
   printf("Test for remove_from_end completed\n\n");
 };
 
+void test_remove_first_occurrence(void) {
+  printf("Testing remove_first_occurrence\n");
+  List_ptr list = create_list();
+  Matcher matcher = &is_equal;
+  int *number = malloc(sizeof(Element));
+  *number = 1;
+  printf("should fail if the list is empty\n");
+  assert(!remove_first_occurrence(list, number, matcher));
+  assert(list->length== 0);
+
+  printf("should fail if num is not present in the list\n");
+  add_to_list(list,number);
+  *number = 2;
+  add_to_list(list,number);
+  *number = 3;
+  assert(!remove_first_occurrence(list,number,matcher));
+  assert(list->length == 2);
+
+  printf("should remove the first occurrence of the num from the list\n");
+  *number = 2;
+  assert(*( int *)remove_first_occurrence(list,number, matcher) == 2);
+  assert(list->length == 1);
+  assert(*(int *)list->first->element == 1);
+  assert(*(int *)list->last->element == 1);
+  printf("Test for remove_first_occurrences completed\n\n");
+};
+
 int main(void){
   test_add_to_list();
   test_add_to_start();
@@ -212,5 +238,6 @@ int main(void){
   test_remove_at();
   test_remove_from_start();
   test_remove_from_end();
+  test_remove_first_occurrence();
   return  0;
 }
