@@ -196,11 +196,11 @@ void test_remove_from_end(void) {
   add_to_list(list, number);
   *number = 2;
   add_to_list(list,number);
-  assert(remove_from_end(list));
+  Element result = remove_from_end(list);
+  assert(*(int *)result == 2);
   assert(list->length == 1);
   assert(*(int *)list->first->element == 1);
   assert(*(int *)list->last->element == 1);
-
   printf("Test for remove_from_end completed\n\n");
 };
 
@@ -213,7 +213,15 @@ void test_remove_first_occurrence(void) {
   printf("should fail if the list is empty\n");
   assert(!remove_first_occurrence(list, number, matcher));
   assert(list->length== 0);
+  display_list(list);
 
+  printf("should remove first occurrence in single list\n");
+  add_to_list(list, number);
+  assert(*( int *)remove_first_occurrence(list,number, matcher) == 1);
+  assert(list->first == NULL);
+  assert(list->last == NULL);
+  assert(list->length == 0);
+  
   printf("should fail if num is not present in the list\n");
   add_to_list(list,number);
   *number = 2;
@@ -241,7 +249,6 @@ void test_remove_all_occurrence(void){
   List_ptr new_list = remove_all_occurrences(list,number, matcher);
   assert(new_list->first == NULL);
   assert(new_list->last == NULL);
-
   printf("should give empty list if the number  is not present\n");
   *number = 1;
   add_to_list(list, number);
@@ -369,19 +376,19 @@ void test_reverse( void ){
 }
 
 int main(void){
-//   test_add_to_list();
-//   test_add_to_start();
-//   test_insert_at();
-//   test_add_unique();
-  // test_remove_at();
+  test_add_to_list();
+  test_add_to_start();
+  test_insert_at();
+  test_add_unique();
+  test_remove_at();
   test_remove_from_start();
   test_remove_from_end();
-  // test_remove_first_occurrence();
-  // test_remove_all_occurrence();
-  // test_map();
-  // test_filter();
-  // test_reduce();
-  // test_for_each();
-  // test_reverse();
+  test_remove_first_occurrence();
+  test_remove_all_occurrence();
+  test_map();
+  test_filter();
+  test_reduce();
+  test_for_each();
+  test_reverse();
   return  0;
 }

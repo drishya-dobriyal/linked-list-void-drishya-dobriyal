@@ -122,11 +122,17 @@ Status add_unique(List_ptr list, Element value, Matcher matcher){
 
 Element remove_from_start(List_ptr list) {
   if(list->first == NULL) return NULL;
-  Node_ptr new_node = list->first->next;
   Element pre_element = list->first->element;
+  if(list->length == 1)
+  {
+    list->last = NULL;
+    list->first = NULL;
+    list->length--;
+    return pre_element;
+  }
+  Node_ptr new_node = list->first->next;
   list->first = new_node;
   list->length--;
-  if(!list->length) list->last = NULL;
   return pre_element;
 }
 
