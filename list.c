@@ -123,10 +123,13 @@ Status add_unique(List_ptr list, Element value, Matcher matcher){
 Element remove_from_start(List_ptr list) {
   if(list->first == NULL) return NULL;
   Element element_to_remove = list->first->element;
+  Node_ptr node_to_remove = list->first;
   Node_ptr new_first = list->first->next;
   list->first = new_first;
   if(list->length == 1) list->last = NULL;
   list->length--;
+  free(node_to_remove);
+  display_list(list);
   return element_to_remove;
 }
 
@@ -139,15 +142,16 @@ Element remove_at(List_ptr list, int position){
   if(position == 0) return remove_from_start(list);
   Node_ptr p_walk = get_node(list, position);
   Element element_to_remove = p_walk->next->element;
+  Node_ptr node_to_remove = p_walk->next;
   if( position == list->length - 1) {
     list->last = p_walk;
     list->last->next = NULL;
   } 
   else {
     Node_ptr next_pos = p_walk->next->next;
-    free(p_walk->next);
     p_walk->next = next_pos;
   };   
+  free(node_to_remove);
   list->length--;
   return element_to_remove;
 }
@@ -178,6 +182,7 @@ List_ptr remove_all_occurrences(List_ptr list, Element value, Matcher matcher) {
   }
   return new_list;
 }
+
 
 Element increment( Element value ){
   int *number = malloc(sizeof(Element));
