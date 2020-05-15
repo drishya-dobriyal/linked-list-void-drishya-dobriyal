@@ -51,6 +51,18 @@ List_ptr create_list(void){
   return list;
 }
 
+Prev_Curr_Pair get_pair(List_ptr list, int pos){
+  Prev_Curr_Pair node_ptrs;
+  node_ptrs.prev = NULL;
+  node_ptrs.curr = list->first;
+  while(pos > 0){
+    node_ptrs.prev = node_ptrs.curr;
+    node_ptrs.curr = node_ptrs.curr->next;
+    pos--;
+  } 
+  return node_ptrs; 
+}
+
 Status add_to_start( List_ptr list, Element value) {
   return insert_at(list, value, 0);
 }
@@ -62,14 +74,7 @@ Status add_to_list( List_ptr list, Element value) {
 Status insert_at(List_ptr list, Element element, int position){
   if( position > list->length || position < 0) return Failure;
   Node_ptr new_node = create_node(element);
-  Prev_Curr_Pair node_ptrs;
-  node_ptrs.prev = NULL;
-  node_ptrs.curr = list->first;
-  while(position > 0){
-    node_ptrs.prev = node_ptrs.curr;
-    node_ptrs.curr = node_ptrs.curr->next;
-    position--;
-  }  
+  Prev_Curr_Pair node_ptrs = get_pair(list, position);
   Node_ptr *ptr_to_set = &list->first;
   if( node_ptrs.prev != NULL) ptr_to_set = &node_ptrs.prev->next;
   *ptr_to_set = new_node;
@@ -108,14 +113,7 @@ Element remove_from_end(List_ptr list){
 
 Element remove_at(List_ptr list, int position){
   if(position >= list->length || position < 0) return NULL;
-  Prev_Curr_Pair node_ptrs;
-  node_ptrs.prev = NULL;
-  node_ptrs.curr = list->first;
-  while(position > 0){
-    node_ptrs.prev = node_ptrs.curr;
-    node_ptrs.curr = node_ptrs.curr->next;
-    position--;
-  }
+  Prev_Curr_Pair node_ptrs = get_pair(list, position);
   Node_ptr node_to_remove = node_ptrs.curr;
   Node_ptr *ptr_to_set = &list->first;
   if (node_ptrs.prev != NULL) ptr_to_set = &node_ptrs.prev->next;
