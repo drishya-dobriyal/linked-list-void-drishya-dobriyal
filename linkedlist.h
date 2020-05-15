@@ -31,6 +31,11 @@ typedef struct linklist
   int length;
 } LinkedList;
 
+typedef struct  {
+  Node_ptr prev;
+  Node_ptr curr;
+}Prev_Curr_Pair;
+	
 typedef LinkedList *List_ptr;
 
 typedef Element (*Mapper)(Element);

@@ -121,16 +121,7 @@ Status add_unique(List_ptr list, Element value, Matcher matcher){
 }
 
 Element remove_from_start(List_ptr list) {
-  if(list->first == NULL) return NULL;
-  Element element_to_remove = list->first->element;
-  Node_ptr node_to_remove = list->first;
-  Node_ptr new_first = list->first->next;
-  list->first = new_first;
-  if(list->length == 1) list->last = NULL;
-  list->length--;
-  free(node_to_remove);
-  display_list(list);
-  return element_to_remove;
+  return remove_at(list, 0);
 }
 
 Element remove_from_end(List_ptr list){
@@ -138,22 +129,24 @@ Element remove_from_end(List_ptr list){
 };
  
 Element remove_at(List_ptr list, int position){
-  if(list->first == NULL|| position > list->length || position < 0 ) return NULL;
-  if(position == 0) return remove_from_start(list);
-  Node_ptr p_walk = get_node(list, position);
-  Element element_to_remove = p_walk->next->element;
-  Node_ptr node_to_remove = p_walk->next;
-  if( position == list->length - 1) {
-    list->last = p_walk;
-    list->last->next = NULL;
-  } 
-  else {
-    Node_ptr next_pos = p_walk->next->next;
-    p_walk->next = next_pos;
-  };   
+  if(position >= list->length || position < 0) return NULL;
+  Prev_Curr_Pair node_ptrs;
+  node_ptrs.prev = NULL;
+  node_ptrs.curr = list->first;
+  while(position > 0){
+    node_ptrs.prev = node_ptrs.curr;
+    node_ptrs.curr = node_ptrs.curr->next;
+    position--;
+  }
+  Node_ptr node_to_remove = node_ptrs.curr;
+  Node_ptr *ptr_to_set = &list->first;
+  if (node_ptrs.prev != NULL) ptr_to_set = &node_ptrs.prev->next;
+  *ptr_to_set = node_ptrs.curr->next;
+  if(node_ptrs.curr->next==NULL) list->last = node_ptrs.prev;
+  Element removed_element = node_to_remove->element;
   free(node_to_remove);
   list->length--;
-  return element_to_remove;
+  return removed_element;
 }
 
 Element remove_first_occurrence(List_ptr list, Element value, Matcher  matcher){
@@ -169,17 +162,16 @@ Element remove_first_occurrence(List_ptr list, Element value, Matcher  matcher){
 }
 
 List_ptr remove_all_occurrences(List_ptr list, Element value, Matcher matcher) {
-	  List_ptr new_list = create_list();
-	  Node_ptr p_walk = list->first;
-	  int pos = 0;
-	  while (1)
-	  {
-	    Element new_element= remove_first_occurrence(list, value, matcher);
-	    if(new_element == NULL) break;
-	    insert_at(new_list, new_element, pos);
-	    pos += 1;
-	  }
-	  return new_list;
+	List_ptr new_list = create_list();
+	int pos = 0;
+	while (1)
+	{
+	  Element new_element= remove_first_occurrence(list, value, matcher);
+	  if(new_element == NULL) break;
+	  insert_at(new_list, new_element, pos);
+	  pos += 1;
+	}
+	return new_list;
 }	
 
 Element increment( Element value ){
