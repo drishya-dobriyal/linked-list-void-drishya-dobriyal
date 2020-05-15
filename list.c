@@ -38,8 +38,7 @@ void display_list(List_ptr list){
 
 Node_ptr create_node(Element element){
   Node_ptr new_node = malloc(sizeof(Node));
-  new_node->element = malloc(sizeof(Element));
-  memcpy( new_node->element, element, sizeof(Element));
+  new_node->element = element;
   new_node->next = NULL;
   return new_node;
 }
