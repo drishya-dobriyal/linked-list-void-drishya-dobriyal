@@ -113,7 +113,7 @@ Element remove_from_end(List_ptr list){
 
 Element remove_at(List_ptr list, int position){
   if(position >= list->length || position < 0) return NULL;
-  Prev_Curr_Pair node_ptrs = get_pair(list, position);
+ Prev_Curr_Pair node_ptrs = get_pair(list, position);
   Node_ptr node_to_remove = node_ptrs.curr;
   Node_ptr *ptr_to_set = &list->first;
   if (node_ptrs.prev != NULL) ptr_to_set = &node_ptrs.prev->next;
@@ -202,10 +202,7 @@ Element reduce( List_ptr list,Element context, Reducer reducer ){
 }
 
 void increment_by_one( Element value){
-  int *num = malloc(sizeof(Element));
-  *num = *(int *)value + 1;
-  memcpy(value, num, sizeof(Element));
-  free(num);
+  *(int *)value += 1;
 }
 
 void forEach(List_ptr list, ElementProcessor processor) {
