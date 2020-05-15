@@ -60,43 +60,22 @@ Status add_to_list( List_ptr list, Element value) {
   return insert_at(list, value, list->length);
 }
 
-Status insert_initial_node(List_ptr list, Node_ptr node){
-  list->last = node;
-  list->first = node;
-  list->length++;
-  return Success;
-}
-
-Status insert_at_start(List_ptr list,Node_ptr new_node) {
-  Node_ptr pre_pos = list->first;
-  list->first = new_node;
-  new_node->next = pre_pos;
-  list->length++;
-  return Success;
-}
-
-Node_ptr get_node( List_ptr list, int position){
-  Node_ptr p_walk = list->first;
-  int currPosition = 1;
-  while ( currPosition != position)
-  {
-    p_walk = p_walk->next;
-    currPosition++;
-  }
-  return p_walk;
-}
-
 Status insert_at(List_ptr list, Element element, int position){
   if( position > list->length || position < 0) return Failure;
   Node_ptr new_node = create_node(element);
-  if(list->first == NULL) return insert_initial_node( list, new_node);
-  if( position == 0) return insert_at_start(list, new_node);
-
-  Node_ptr p_walk = get_node(list, position);
-  Node_ptr pre_pos = p_walk->next;
-  p_walk->next =  new_node;
-  if( position == list->length) list->last = new_node;
-  else new_node->next = pre_pos;   
+  Prev_Curr_Pair node_ptrs;
+  node_ptrs.prev = NULL;
+  node_ptrs.curr = list->first;
+  while(position > 0){
+    node_ptrs.prev = node_ptrs.curr;
+    node_ptrs.curr = node_ptrs.curr->next;
+    position--;
+  }  
+  Node_ptr *ptr_to_set = &list->first;
+  if( node_ptrs.prev != NULL) ptr_to_set = &node_ptrs.prev->next;
+  *ptr_to_set = new_node;
+  new_node->next = node_ptrs.curr;
+  if(node_ptrs.curr == NULL ) list->last = new_node;
   list->length++;
   return Success;
 }
@@ -127,7 +106,7 @@ Element remove_from_start(List_ptr list) {
 Element remove_from_end(List_ptr list){
   return remove_at(list, list->length - 1);
 };
- 
+
 Element remove_at(List_ptr list, int position){
   if(position >= list->length || position < 0) return NULL;
   Prev_Curr_Pair node_ptrs;
